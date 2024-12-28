@@ -1,7 +1,6 @@
 """
-shmantikes selides sto vivlio tuto
-oi selides einai me vash to arxeio kai oxi tis selides pu anagfrontai mesa sto vivlio. to arxeio exei 191 selides
-shmantikes selides:
+important pages
+the pages mentioned below are for reference as per the files total pages, not as per the printed numbering pages
 21 - basic printing
 26 - if statements
 32,35 - strings
@@ -1029,11 +1028,45 @@ def askhsh_116():
     for row in file:
         x = row.replace("\n","")
         temporary_storage.append(x)
-    print(temporary_storage)
-    user_delete = int("Dialekse mia grammh gia na kameis delete: ")
+    file.close()
+    for i in range(0,len(temporary_storage)):
+        print(i,"-",temporary_storage[i],end="\n")
+    user_delete = int(input("Choose a row to delete: "))
+    del temporary_storage[user_delete]
+    for i in range(0,len(temporary_storage)):
+        print(i,"-",temporary_storage[i],end="\n")
+    user_change = int(input("Choose which row you want to alter: "))
+    new_text = input(f"Insert new text for place {user_change}: ")
+    del temporary_storage[user_change]
+    temporary_storage.insert(user_change,new_text)
+    for i in range(0,len(temporary_storage)):
+        print(i,"-",temporary_storage[i],end="\n")
+    file = open("Books.csv","w")
+    for i in range(0,len(temporary_storage)):
+        file.write(temporary_storage[i]+"\n")
+    file.close()
     
-
-
+def askhsh_117():
+    file = open("math_problems.csv","a")
+    userinput_name = input("Please enter your name: ")
+    score = 0
+    x_one = random.randint(0,10)
+    y_one = random.randint(0,10)
+    answer_one = x_one + y_one
+    x_two = random.randint(0,10)
+    y_two = random.randint(0,10)
+    answer_two = x_two + y_two
+    userinput_problem_one_question = (f"What is the sum of {x_one} and {y_one}? ")
+    userinput_problem_one = int(input(userinput_problem_one_question))
+    userinput_problem_two_question = (f"What is the sum of {x_two} and {y_two}? ")
+    userinput_problem_two = int(input(userinput_problem_two_question))
+    if userinput_problem_one == answer_one:
+        score += 1
+    if userinput_problem_two == answer_two:
+        score += 1
+    new_record = "user's name: "+userinput_name+",1st question: "+str(userinput_problem_one_question)+",2nd question: "+str(userinput_problem_two_question)+",answer given for 1st problem: "+str(userinput_problem_one)+",answer given for 2nd problem: "+str(userinput_problem_two)+",With these answers the user's score is: "+str(score)
+    file.write(new_record+"\n")
+    file.close()
 
     '''
     while file.readline() != None:
