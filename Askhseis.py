@@ -14,6 +14,7 @@ the pages mentioned below are for reference as per the files total pages, not as
 87 - 89 - 2D lists and Dictionaries
 94 - 95 - Reading and Writing to a Text File
 99 - 102 - Reading and Writing to a .csv File
+107 - 109 - Subprograms
 """
 
 import math
@@ -1067,6 +1068,102 @@ def askhsh_117():
     new_record = "user's name: "+userinput_name+",1st question: "+str(userinput_problem_one_question)+",2nd question: "+str(userinput_problem_two_question)+",answer given for 1st problem: "+str(userinput_problem_one)+",answer given for 2nd problem: "+str(userinput_problem_two)+",With these answers the user's score is: "+str(score)
     file.write(new_record+"\n")
     file.close()
+    
+def askhsh_118():
+    def number_input():
+        users_input = int(input("Please enter a positive integer number so we will count to that number: "))
+        return users_input
+    
+    def counter():
+        number = number_input()
+        print(f"Let's count to {number} ")
+        _ = input("Press enter when you are ready: ")
+        for i in range(0+1,number+1):
+            print(i)
+    
+    counter()
+
+def askhsh_119():
+    def limits():
+        lower_boundary = int(input("Please give a lower boundary: "))
+        upper_boundary = int(input("Please give an upper boundary: "))
+        comp_num = random.randint(lower_boundary,upper_boundary)
+        return comp_num
+
+    def user_input():
+        users_guess = int(input("I am thinking of a number and that number is... "))
+        return users_guess
+
+    def answer_check():
+        random_number = limits()
+        user = user_input()
+        if user == random_number:
+            print(f"Correct, the number i am thinking is indeed {user}. You win!")
+        else:
+            while user != random_number:
+                print("Missed it")
+                if user > random_number:
+                    print(f"The number i am thinking is lower than {user}")
+                elif user < random_number:
+                    print(f"The number i am thinking is higher than {user}")
+                print("Let's try again...")
+                user = user_input()
+            print(f"Correct, the number i am thinking is indeed {user}. You win!")
+    
+    answer_check()
+
+def askhsh_120():
+    #addition subprogram
+    def addition():
+        number_one = random.randint(5,20)
+        number_two = random.randint(5,20)
+        correct_answer = number_one + number_two
+        print(f"How much is the summary of {number_one} + {number_two}?")
+        user_input = int(input("Enter your answer here: "))
+        print(f"The correct answer is {correct_answer} and you have entered: {user_input}")
+        return correct_answer , user_input
+    
+    #subtraction subprogram
+    def subtraction():
+        afaireths = random.randint(25,50)
+        afaireteos = random.randint(1,25)
+        correct_answer = afaireths - afaireteos
+        print(f"How much is {afaireths} - {afaireteos}?")
+        user_input = int(input("Enter your answer here: "))
+        print(f"The correct answer is {correct_answer} and you have entered: {user_input}")
+        return correct_answer , user_input
+
+    def answer_checker(users_input,computers_answer):
+        if users_input == computers_answer:
+            print("You have entered the correct answer.")
+        else:
+            print("You have entered an incorrect answer.")
+    
+    def display_menu():
+        print("1) Addition")
+        print("2) Subtraction")
+        menu_choice = input("Enter 1 or 2: ")
+        return menu_choice
+
+    def program():
+        menu_choice = display_menu()
+        while menu_choice not in ["1","2"]:
+            print("Please choose a valid option.")
+            menu_choice = display_menu()
+        if menu_choice == "1":
+            correct_answer , user_input = addition()
+        elif menu_choice == "2":
+            correct_answer , user_input = subtraction()
+        answer_checker(correct_answer , user_input)
+    
+    #start the program
+    program()
+            
+        
+
+        
+
+
 
     '''
     while file.readline() != None:
