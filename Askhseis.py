@@ -23,6 +23,7 @@ from array import *
 #from decimal import Decimal, ROUND_UP, ROUND_HALF_UP #to address the float decimals round error
 from decimal import *
 import csv
+#from tkinter import *
 
 def askhsh_1():
     name = input("Give me your first name please: ")
@@ -1158,10 +1159,209 @@ def askhsh_120():
     
     #start the program
     program()
+
             
+def askhsh_121():
+    lista = []
+    
+    def display_list(where=0):
+        if len(lista) == 0:
+            print("The list is currently empty.")
+            print("Insert some data and try again.")
+        else:
+            print("The list contains the following data:")
+            for i in range(0,len(lista)):
+                print(i,lista[i])
+        if where == "menu":
+            program()
+        #else:
+        #    return
+            
+    
+    def add_entry():
+        new_entry = input("Please add a new entry: ")
+        lista.append(new_entry)
+        program()
+    
+    def edit():
+        display_list()
+        edit_list_selection = int(input("Which entry would you like to edit?"))
+        edit_list_data = input(f"New data for place {edit_list_selection}: ")
+        lista.pop(edit_list_selection)
+        lista.insert(edit_list_selection , edit_list_data)
+        program()
         
+    def remove_entry():
+        if len(lista) == 0:
+            print("Please add entries to the list first")
+            program()  
+        print("Please select an entry to remove")
+        display_list()
+        remove = int(input("Remove entry: "))
+        lista.pop(remove)
+        program()
+    
+    def display_menu():
+        print("-----List manager-----")
+        print("Welcome to the list manager program")
+        print("Please select one of the following options:")
+        print("1) Add a new entry")
+        print("2) Edit an entry")
+        print("3) Remove an entry")
+        print("4) Display the list")
+        print("5) Exit")
+        menu_choice = input("Selection :")
+        return menu_choice
+    
+    def program():
+        valid_menu_choice = ["1","2","3","4","5"]
+        menu_choice = display_menu()
+        while menu_choice not in valid_menu_choice:
+            print("Please make a valid selection: ")
+            menu_choice = display_menu()
+        if menu_choice == "1":
+            add_entry()
+        elif menu_choice == "2":
+            edit()
+        elif menu_choice == "3":
+            remove_entry()
+        elif menu_choice == "4":
+            display_list("menu")
+        elif menu_choice == "5":
+            exit()
+        
+    program()
+        
+def askhsh_122():
+
+    def add_to_file():
+        file = open("Salaries.csv" , "a")
+        name = input("Please insert a name: ")
+        salary = int(input(f"Please insert the salary of {name}: "))
+        new_record = name + "," + str(salary) + "\n"
+        file.write(new_record)
+        file.close()
+        program()
+
+    def view_records():
+        print()
+        file = open("Salaries.csv" , "r")
+        for row in file:
+            print(row.replace("\n",""))
+        print()
+        program()
+
+    def display_menu():
+        print("1) Add to file")
+        print("2) View all records")
+        print("3) Quit program")
+        print()
+        display_menu_choice = input("Enter the number of your selection: ")
+        return display_menu_choice
+
+    def program():
+        valid_menu_choices = ["1", "2", "3"]
+        menu_choice = display_menu()
+        while menu_choice not in valid_menu_choices:
+            print("Please make a valid selection")
+            menu_choice = display_menu()
+        if menu_choice == "1":
+            add_to_file()
+        if menu_choice == "2":
+            view_records()    
+        if menu_choice == "3":
+            exit()    
+
+    program()
+
+def askhsh_123():
+    def add_to_file():
+        file = open("Salaries.csv", "a")
+        name = input("Please insert a name: ")
+        salary = int(input(f"Please insert the salary of {name}: "))
+        new_record = name + "," + str(salary) + "\n"
+        file.write(new_record)
+        file.close()
+        program()
+
+    def view_records():
+        print()
+        file = open("Salaries.csv" , "r")
+        for row in file:
+            print(row.replace("\n",""))
+        print()
+        program()
+    
+    def delete_a_record():
+        file = open("Salaries.csv", "r")
+        temporary_file = []
+        i = 0
+        for row in file:
+            i += 1
+            row = row.replace("\n","")
+            temporary_file.append(row)
+            print(i,row)
+        file.close()
+        #print(temporary_file)
+        record_selection = int(input("Please select the number of the record you would like to delete: "))
+        del temporary_file[record_selection-1]
+        file_write = open("Salaries.csv","w")
+        for row in temporary_file:
+            file_write.write(str(row)+"\n")
+            print(row)
+        print("---------")
+        print(temporary_file)
+        file_write.close()
+        program()
 
         
+        
+
+
+    def display_menu():
+        print("1) Add to file")
+        print("2) View all records")
+        print("3) Delete a record")
+        print("4) Quit program")
+        print()
+        display_menu_choice = input("Enter the number of your selection: ")
+        return display_menu_choice
+
+    def program():
+        valid_menu_choice = ["1", "2", "3", "4"]
+        menu_choice = display_menu()
+        while menu_choice not in valid_menu_choice:
+            print("Please make a valid selection")
+            menu_choice = display_menu()
+        if menu_choice == "1":
+            add_to_file()
+        if menu_choice == "2":
+            view_records()
+        if menu_choice == "3":
+            delete_a_record()
+        if menu_choice == "4":
+            exit()
+
+
+    program()
+
+"""
+dont change anything beyond this line
+"""
+
+def askhsh_tk():
+    def Call():
+        msg = Label(window, text = "You pressed the button")
+        msg.place(x = 30, y = 50)
+        button["bg"] = "blue"
+        button["fg"] = "white"
+        
+    window = Tk()
+    window.geometry("200x110")
+    button = Button(text = "Press me", command = Call)
+    button.place(x = 30, y = 20, width = 120, height = 25)
+    window.mainloop()
+
 
 
 
