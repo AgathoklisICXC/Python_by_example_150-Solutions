@@ -23,7 +23,7 @@ from array import *
 #from decimal import Decimal, ROUND_UP, ROUND_HALF_UP #to address the float decimals round error
 from decimal import *
 import csv
-#from tkinter import *
+from tkinter import *
 
 def askhsh_1():
     name = input("Give me your first name please: ")
@@ -1314,10 +1314,6 @@ def askhsh_123():
         file_write.close()
         program()
 
-        
-        
-
-
     def display_menu():
         print("1) Add to file")
         print("2) View all records")
@@ -1342,8 +1338,32 @@ def askhsh_123():
         if menu_choice == "4":
             exit()
 
-
     program()
+
+def askhsh_124():
+    def main_window():
+        def greet_me():
+            onoma = entry_box.get()
+            entry_box.delete(0, END)
+            greet = "Hello",onoma
+            msg = Label(window, text = greet )
+            msg.place(x = 20, y = 90)
+            msg["bg"] = "blue"
+            msg["fg"] = "white"
+
+        window = Tk()
+        window.title("Greet the user.")
+        window.geometry("200x150")
+        ask_name = Label(text = "Please insert your name below:")
+        ask_name.place(x=15, y=15)
+        entry_box = Entry (text= 0)
+        entry_box.place(x=20, y=40)
+        entry_box["relief"] = "solid"
+        koumpi = Button(text = "Greet!", command = greet_me)
+        koumpi.place(x = 20, y = 65, width = 150 , height = 25 )
+        window.mainloop()
+    
+    main_window()
 
 """
 dont change anything beyond this line
@@ -1362,26 +1382,9 @@ def askhsh_tk():
     button.place(x = 30, y = 20, width = 120, height = 25)
     window.mainloop()
 
-
-
-
-    '''
-    while file.readline() != None:
-        if file.readline() != user_input_name_remove:
-            file_new.write(str(file.readline()))
-    '''
-    #
-    #number_of_names = file.count("\n")
-    
-    #print("The number of names is:",number_of_names)
-    #for i in 
-
-
 def main():
-    #dialogh_askhseis = int(input("Choose an exercise: "))
     dialogh_askhseis = input("Choose an exercise: ")
-    #print("h askhsh pu dialekses  einai h: "+str(dialogh_askhseis))
-    #askhsh = "askhsh_"+str(dialogh_askhseis)
+    #dialogh_askhseis = "124"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
