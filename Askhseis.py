@@ -1452,6 +1452,357 @@ def askhsh_126():
 
     main_window()
 
+def askhsh_127():
+    #na sastei to intro
+    def main_window():
+        global lista
+        lista = []
+        def add_name():
+            global lista
+            new_name = entry_box.get()
+            lista.append(new_name)
+            lista_output["text"]=lista
+        
+        def clear_list():
+            global lista
+            lista = []
+            lista_output["text"]=lista
+
+        parathiro=Tk()
+        parathiro.title("List of names")
+        parathiro.geometry("450x300")
+
+        #introduction
+        #intro = Label(text="This is a small program that summarizes the numbers that the user inputs \nin the box below.")
+        intro = Label(text="This is a small program that will hold a list of names.")
+        intro.place(x=15, y=15)
+        intro.config(justify=LEFT)
+
+        #Guidelines
+        guidelines = Label(text="Guidelines: Insert one name each time in the following box, and click on \n\"Add\" button in order to add the name on the list below.")
+        guidelines.place(x=15, y=35)
+        guidelines.config(justify=LEFT)
+
+        #Entry box
+        entry_box = Entry (text=0)
+        entry_box.place(x=15, y =80)        
+
+        #Add Button setup
+        koumpi_add = Button(text="Add name on the list", command=add_name)
+        koumpi_add.place(x=20, y=110, width=150, height=25)
+
+        #Clear Button setup
+        koumpi_clear = Button(text="Clear the list ", command=clear_list)
+        koumpi_clear.place(x=190, y=110, width=150, height=25)
+
+        #output of list setup
+        lista_output = Message(text="")
+        lista_output.place(x=20, y=140, width= 350, height=130)
+        lista_output.config(justify=LEFT)
+
+        parathiro.attributes("-alpha", 0.93)
+        parathiro.attributes('-topmost', True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_128():
+    def main_window():
+        def conversion(mode):
+            if mode == "metric2imp":
+                output_box["text"]=f"{(entry_box.get())} miles is equal to {float(entry_box.get())*0.6214} kilometers"
+            elif mode == "imp2metric":
+                output_box["text"]=f"{entry_box.get()} miles is equal to {float(entry_box.get())*1.6093} kilometers"
+                
+        parathiro = Tk()
+        parathiro.title("Banana units to real units")
+        parathiro.geometry("500x450")
+
+        #introduction
+        #intro = Label(text="This is a small program that summarizes the numbers that the user inputs \nin the box below.")
+        intro = Label(text="This is a small program that can convert kilometers to miles and vice versa.")
+        intro.place(x=15, y=15)
+        intro.config(justify=LEFT)
+
+        #Guidelines
+        guidelines = Label(text="Guidelines: Write a number on the box below and click on convert.")
+        guidelines.place(x=15, y=35)
+        guidelines.config(justify=LEFT)
+
+        #Entry box
+        entry_box = Entry (text=0)
+        entry_box.place(x=15, y =80)
+
+        #Button setup - Convert km to miles
+        koumpi_metric2imp = Button(text="Convert km to miles", command=lambda: conversion("metric2imp"))
+        koumpi_metric2imp.place(x=20, y=110, width=150, height=25)
+
+        #Button setup - Convert miles to km
+        koumpi_imp2metric = Button(text="Convert miles to km the list ", command = lambda: conversion("imp2metric"))
+        koumpi_imp2metric.place(x=190, y=110, width=150, height=25)
+
+        #result's box
+        output_box = Message (text="")
+        output_box.place(x=20, y=165, width=410, height=100)
+
+        parathiro.attributes("-alpha", 0.93)
+        parathiro.attributes('-topmost', True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_129():
+    global lista
+    lista = ""
+    def main_window():
+        def add_or_clear(cmd):
+            global lista
+            if cmd == "add":
+                if (entry_box.get()).isdigit():
+                    lista = lista + "\n" +(entry_box.get())
+                    show_lista["text"]=lista
+                else:
+                    entry_box.delete(0, END)
+            elif cmd == "clear":
+                lista = ""
+                show_lista["text"]=lista
+
+        #main window
+        parathiro = Tk()
+        parathiro.title("Digits list")
+        parathiro.geometry("600x450")
+
+        #introduction
+        #intro = Label(text="This is a small program that summarizes the numbers that the user inputs \nin the box below.")
+        intro = Label(text="This is a small program that creats a list of numbers.")
+        intro.place(x=15, y=15)
+        intro.config(justify=LEFT)
+
+        #Guidelines
+        guidelines = Label(text="Guidelines: Write a number on the box below and click on \"Add\", to add it to the list, \nor \"Clear\" to clear the list.")
+        guidelines.place(x=15, y=35)
+        guidelines.config(justify=LEFT)
+
+        #Entry Box
+        entry_box = Entry(text=0)
+        entry_box.place(x=15, y =80)
+
+        #Button setup - add
+        koumpi_add = Button(text="Add to list", command=lambda: add_or_clear("add"))
+        koumpi_add.place(x=20, y=110, width=150, height=25)
+
+        #Button setup - clear
+        koumpi_clear = Button(text="Clear list ", command = lambda: add_or_clear("clear"))
+        koumpi_clear.place(x=190, y=110, width=150, height=25)
+        
+        #list display
+        show_lista = Label (text="")
+        show_lista.place(x=20, y=165, width=410, height=100)
+
+        #main window closing settings
+        parathiro.attributes("-alpha",0.93,'-topmost', True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_130():
+    global lista
+    lista = ""
+    def main_window():
+        def add_or_clear(cmd):
+            global lista
+            if cmd == "add":
+                if (entry_box.get()).isdigit():
+                    lista = lista + "\n" +(entry_box.get())
+                    show_lista["text"]=lista
+                else:
+                    entry_box.delete(0, END)
+            elif cmd == "clear":
+                lista = ""
+                show_lista["text"]=lista
+
+        def save_csv():
+            file = open ("list_save.csv", "a")
+            file.write(lista)
+            file.close()
+
+        #main window
+        parathiro = Tk()
+        parathiro.title("Digits list with save")
+        parathiro.geometry("600x450")
+
+        #introduction
+        #intro = Label(text="This is a small program that summarizes the numbers that the user inputs \nin the box below.")
+        intro = Label(text="This is a small program that creats a list of numbers.")
+        intro.place(x=15, y=15)
+        intro.config(justify=LEFT)
+
+        #Guidelines
+        guidelines = Label(text="Guidelines: Write a number on the box below and click on \"Add\", to add it to the list, \nor \"Clear\" to clear the list.")
+        guidelines.place(x=15, y=35)
+        guidelines.config(justify=LEFT)
+
+        #Entry Box
+        entry_box = Entry(text=0)
+        entry_box.place(x=15, y =80)
+
+        #Button setup - add
+        koumpi_add = Button(text="Add to list", command=lambda: add_or_clear("add"))
+        koumpi_add.place(x=20, y=110, width=150, height=25)
+
+        #Button setup - clear
+        koumpi_clear = Button(text="Clear list ", command = lambda: add_or_clear("clear"))
+        koumpi_clear.place(x=190, y=110, width=150, height=25)
+        
+        #Button setup - save csv
+        koumpi_save_csv = Button (text = "Save csv", command = save_csv)
+        koumpi_save_csv.place(x=20, y=140, width=150, height=25)
+
+        #Button setup - exit
+        koumpi_save_csv = Button (text = "Exit", command=exit)
+        koumpi_save_csv.place(x=190, y=140, width=150, height=25)
+
+        #list display
+        show_lista = Label (text="")
+        show_lista.place(x=20, y=165, width=410, height=100)
+
+        #main window closing settings
+        parathiro.attributes("-alpha",0.93,'-topmost', True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_131():
+    def main_window():
+        def create_csv():
+            file = open("exercise_131.csv", "w")
+            file.close()
+        
+        def save_to_csv():
+            file = open ("exercise_131.csv", "a")
+            #buffer = entry_box_name.get() + ","+
+            file.write(str(entry_box_name.get()+","+entry_box_age.get())+"\n")
+            file.close()
+
+        #main window
+        parathiro = Tk()
+        parathiro.title("Save name and age in csv")
+        parathiro.geometry("600x450")
+
+        #introduction
+        #intro = Label(text="This is a small program that summarizes the numbers that the user inputs \nin the box below.")
+        intro = Label(text="This is a small program that creates a csv and saves a name and an age in it.")
+        intro.place(x=15, y=15)
+        intro.config(justify=LEFT)
+
+        #Guidelines
+        guidelines = Label(text="Guidelines: Write the name and the age in the first and second box correspondingly \nand click on the \"Add name and age in csv file\" button, to add it to the end of the file.")
+        guidelines.place(x=15, y=35)
+        guidelines.config(justify=LEFT)
+
+        #Entry Box - name
+        entry_box_name = Entry(text=0)
+        entry_box_name.place(x=15, y =80)
+
+        #Entry Box - age
+        entry_box_age = Entry(text=1)
+        entry_box_age.place(x=150, y =80)
+
+        #Button setup - add info name + age
+        koumpi_add = Button(text="Create new csv file", command=lambda: create_csv())
+        koumpi_add.place(x=20, y=110, width=150, height=25)
+        
+        #Button setup - save csv
+        koumpi_save_csv = Button (text = "Add name & age in csv file", command = save_to_csv)
+        koumpi_save_csv.place(x=20, y=140, width=150, height=25)
+
+        #Button setup - exit
+        koumpi_save_csv = Button (text = "Exit", command=exit)
+        koumpi_save_csv.place(x=190, y=140, width=150, height=25)
+
+        #main window closing settings
+        parathiro.attributes("-alpha",0.93,'-topmost', True)
+        parathiro.mainloop()
+        
+
+    main_window()
+
+def askhsh_132():
+    def main_window():
+        def create_csv():
+            file = open("exercise_132.csv", "w")
+            file.close()
+        
+        def save_to_csv():
+            file = open ("exercise_132.csv", "a")
+            #buffer = entry_box_name.get() + ","+
+            file.write(str(entry_box_name.get()+","+entry_box_age.get())+"\n")
+            file.close()
+
+        def csv_data_import():
+            show_lista.delete(0,END)
+            #file = open ("exercise_132.csv", "r")
+            file = list(csv.reader(open("exercise_132.csv")))
+            parsed_data=[]
+            for row in file:
+                parsed_data.append(row)
+            x = 0
+            for i in parsed_data:
+                data = parsed_data[x]
+                show_lista.insert(END,data)
+                x = x + 1
+
+        #main window
+        parathiro = Tk()
+        parathiro.title("Save name and age in csv and import data from csv")
+        parathiro.geometry("600x450")
+
+        #introduction
+        #intro = Label(text="This is a small program that summarizes the numbers that the user inputs \nin the box below.")
+        intro = Label(text="This is a small program that creates a csv and saves a name and an age in it, and  can import the data too.")
+        intro.place(x=15, y=15)
+        intro.config(justify=LEFT)
+
+        #Guidelines
+        guidelines = Label(text="Guidelines: Write the name and the age in the first and second box correspondingly \nand click on the \"Add name and age in csv file\" button, to add it to the end of the file.\n Click on import to open the csv file and display the saved data.")
+        guidelines.place(x=15, y=35)
+        guidelines.config(justify=LEFT)
+
+        #Entry Box - name
+        entry_box_name = Entry(text=0)
+        entry_box_name.place(x=15, y =100)
+
+        #Entry Box - age
+        entry_box_age = Entry(text=1)
+        entry_box_age.place(x=150, y =100)
+
+        #Button setup - add info name + age
+        koumpi_add = Button(text="Create new csv file", command=lambda: create_csv())
+        koumpi_add.place(x=20, y=130, width=150, height=25)
+        
+        #Button setup - import from csv
+        koumpi_add = Button(text="Import data from csv file", command=lambda: csv_data_import())
+        koumpi_add.place(x=190, y=130, width=150, height=25)
+
+        #Button setup - save csv
+        koumpi_save_csv = Button (text = "Add name & age in csv file", command = save_to_csv)
+        koumpi_save_csv.place(x=20, y=160, width=150, height=25)
+
+        #Button setup - exit
+        koumpi_save_csv = Button (text = "Exit", command=exit)
+        koumpi_save_csv.place(x=190, y=160, width=150, height=25)
+
+        #list display
+        show_lista = Listbox()
+        show_lista.place(x=20, y=195, width=410, height=100)
+
+        #main window closing settings
+        parathiro.attributes("-alpha",0.93,'-topmost', True)
+        parathiro.mainloop()
+        
+
+    main_window()
+
 """
 dont change anything beyond this line
 """
@@ -1471,7 +1822,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    dialogh_askhseis = "126"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "132"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
