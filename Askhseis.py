@@ -1361,8 +1361,95 @@ def askhsh_124():
         entry_box["relief"] = "solid"
         koumpi = Button(text = "Greet!", command = greet_me)
         koumpi.place(x = 20, y = 65, width = 150 , height = 25 )
+        window.attributes('-topmost', True)
         window.mainloop()
     
+    main_window()
+
+def askhsh_125():
+    def main_window():
+        def dice_thrower():
+            lucky_throw = random.randint(1,6)
+            result = Label(text="Dice's result is: "+str(lucky_throw))
+            result.place(x=45, y=90)
+
+        window = Tk()
+        window.title("Dice thrower")
+        window.geometry("300x150")
+        intro = Label(text= "This is a dice simulation program")
+        intro.place(x=15, y=15)
+        guidelines = Label(text = "Click the following button to \"throw\" the dice")
+        guidelines.place(x=15, y=40)
+        koumpi = Button(text = "Click me!", command = dice_thrower)
+        koumpi.place(x=20, y=65, width=150, height=25)
+        window.attributes('-topmost', True)
+        window.mainloop()
+    
+    main_window()
+
+def askhsh_126():
+    def main_window():
+        global souma
+        souma=0
+        def Add():
+            global souma
+            new_number = entry_box.get()
+            souma = souma + int(new_number)
+            #print(souma)
+            results_refresh()
+            #Result box setup
+            #result = Label(text = souma)
+            #result.place(x=20, y=165, width=50, height=25)
+        
+        def clear_cmd():
+            global souma
+            souma=0
+            #print(souma)
+            results_refresh()
+            #result = Label(text = souma)
+            #result.place(x=20, y=165, width=50, height=25)
+
+        def results_refresh():
+            global souma
+            result = Label(text = souma)
+            result.place(x=20, y=165, width=410, height=25)
+
+        #Basic configuration of the program
+        parathiro = Tk()
+        parathiro.title("The numbers summarizer")
+        parathiro.geometry("450x300")
+        
+        #Message 1
+        intro = Label(text="This is a small program that summarizes the numbers that the user inputs \nin the box below.")
+        intro.place(x=15, y=15, width= 400, height=30)
+        intro.config(justify=LEFT)
+        #intro = Message(parathiro,text="This is a small program that summarizes the numbers that the user inputs in the box below.")
+        #intro.place(x=15, y=15)
+        
+        #Message 2
+        guidelines = Label(text="Guidelines: Insert one number each time in the following box, and click on \n\"Add\" button in order to add the number on the number shown in the box.")
+        guidelines.place(x=15, y=50, width= 400, height=60)
+        guidelines.config(justify=LEFT)
+        #output_box = Message(text ="Insert one number each time in the following box, and click on \"Add\" button in order to add the number on the number shown in the box." )
+        #output_box.place(x=15, y=45)
+        
+        #Entry box
+        entry_box = Entry (text=0)
+        entry_box.place(x=15, y =105)
+        
+        #Add Button setup
+        koumpi_add = Button(text="Add", command=Add)
+        koumpi_add.place(x=20, y=135, width=150, height=25)
+
+        #Clear Button setup
+        koumpi_clear = Button(text="Clear", command=clear_cmd)
+        koumpi_clear.place(x=190, y=135, width=150, height=25)
+
+
+        parathiro.attributes("-alpha", 0.93)
+        parathiro.attributes('-topmost', True)
+        parathiro.mainloop()
+
     main_window()
 
 """
@@ -1384,7 +1471,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "124"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    dialogh_askhseis = "126"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
