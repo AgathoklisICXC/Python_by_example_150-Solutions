@@ -1803,6 +1803,139 @@ def askhsh_132():
 
     main_window()
 
+def askhsh_133():
+    def main_window():
+        def button_press():
+            #name_entry_box.delete(0, END)
+            output_box.delete(0, END)
+            onoma = name_entry_box.get()
+            output_message = "Hello " + onoma
+            output_box.insert(0,str(output_message))
+
+        #main window opening settings
+        parathiro=Tk()
+        parathiro.title("Program with custom images and icon")
+        parathiro.geometry("600x450")
+        
+        #programs icon setup
+        parathiro.wm_iconbitmap("icon_of_133.ico")
+
+        #image setup
+        arxeio_eikonas = PhotoImage(file = "exercise_133_cc0-dolphin_marine_mammals_water.gif")#to open the image
+        eikona = Label(image = arxeio_eikonas)#to place the image in the program
+        eikona.place(x = 200, y = 15, width = 200, height = 150 )
+
+        #Message 1 setup
+        name_label = Label(text = "Enter your name:")
+        name_label.place(x=20, y=200 , width=150, height = 15)
+
+        #Name entry box
+        name_entry_box = Entry(text = 0)
+        name_entry_box.place(x = 190, y = 200, width = 150, height = 20)
+
+        #Button
+        koumpi = Button(text="Press me", command = button_press)
+        koumpi.place(x = 20, y = 230, width = 150 ,height=20 )
+
+        #Output box
+        output_box = Entry(text="")
+        output_box.place(x = 190, y = 230, width = 150, height = 20)
+
+        #main window closing settings
+        parathiro.attributes("-alpha",0.93,"-topmost", True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_134():
+    def main_window():
+        def generate():
+            global generated_equation_correct_answer
+            equation_box.delete(0,END)
+            first_number = random.randint(10,50)
+            second_number =  random.randint(10,50)
+            generated_equation_correct_answer = first_number + second_number
+            generated_equation_text = str(first_number) + " + " + str(second_number)
+            equation_box.insert(0,generated_equation_text)
+
+        def answer_validation():
+            global generated_equation_correct_answer
+            if int(answer_box.get()) == generated_equation_correct_answer:
+                eikona_box["image"] = arxeio_eikonas_correct
+            else:
+                eikona_box["image"] = arxeio_eikonas_wrong
+
+        #initial program setup
+        parathiro= Tk()
+        parathiro.title("Math test time")
+        parathiro.geometry("850x500")
+
+        #intro
+        intro = Label (text="This is a small math test.")
+        intro.place( x = 20 , y = 25 ,width=150, height=25)
+        intro.config(justify=LEFT)
+
+        #guidelines
+        guidelines = Label (text="Click on \"Generate\" to generate an equation.\nType your answer in the textbox below, and click \"Check answer\",to validate your answer.")
+        guidelines.place( x = 25, y = 50, height=50)
+        guidelines.config(justify=LEFT)
+
+        #Button setup - generate equation
+        generate = Button(text="Generate equation", command = generate)
+        generate.place( x = 25, y = 115, width = 150 , height = 30)
+
+        #Button setup - check answer
+        check_answer = Button (text="Check answer", command = answer_validation)
+        check_answer.place( x = 25, y = 155, width = 150 , height = 30)
+
+        #Equation entry box
+        equation_box = Entry (text="")
+        equation_box.place(x = 200 , y = 115 , width = 150, height = 30)
+
+        #answers entry box
+        answer_box = Entry (text="")
+        answer_box.place(x = 200, y = 155, width = 150, height = 30)
+
+        #image setup
+        eikona_box = Label(image="")#to place the image in the program
+        eikona_box.place(x = 25, y = 200, width = 150, height = 150 )
+        arxeio_eikonas_correct = PhotoImage(file = "exercise_134-correct.gif")#to open the image
+        arxeio_eikonas_wrong = PhotoImage(file = "exercise_134-wrong.gif")#to open the image
+
+        parathiro.attributes("-alpha",0.93,"-topmost",True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_135():
+    def main_window():
+        def set_color_cmd():
+            parathiro.configure(background= color_chooser.get())
+
+        parathiro=Tk()
+        parathiro.title("Background color changer")
+        parathiro.geometry("600x450")
+
+        #intro
+        intro = Label(text="Select a color from the list below and click on the \"Click Me\" button \nto change the color of the background according to what you've selected.")
+        intro.place(x = 15, y = 15, width = 440 , height = 50)
+        intro.config(justify=LEFT)
+
+        #list setup
+        color_chooser = StringVar(parathiro)
+        color_chooser.set("Select a color")
+        colors_list = OptionMenu(parathiro,color_chooser,"Red","White","Blue","Green","Yellow")
+        colors_list.place(x = 15, y = 80, width = 125, height = 30)
+
+        #Button setup
+        clickme_button = Button(text="Click Me", command = set_color_cmd)
+        clickme_button.place(x = 150, y = 80, width = 65, height = 30)
+
+        parathiro.attributes("-alpha",0.93,"-topmost",True)
+        parathiro.mainloop()
+
+    main_window()
+
 """
 dont change anything beyond this line
 """
@@ -1822,7 +1955,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "132"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "135"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
