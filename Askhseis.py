@@ -1936,6 +1936,45 @@ def askhsh_135():
 
     main_window()
 
+def askhsh_136():
+    def main_window():
+        def add_on_list():
+            name_to_be_added =  genders_select.get() + " " + entry_box.get()
+            lista_onomatwn.insert(0,name_to_be_added)
+
+        #main window setup
+        parathiro = Tk()
+        parathiro.title("Names list 2 - Exercise 136")
+        parathiro.geometry("490x450")
+
+        #intro
+        intro = Label (text="Please insert a name in the below text box and select the gender of that person.")
+        intro.place( x = 20 , y = 20)
+        intro.config(justify=LEFT)
+
+        #Genders list
+        genders_select = StringVar(parathiro)
+        genders_select.set("Select a gender")
+        genders_list = OptionMenu(parathiro,genders_select,"Mr","Mrs")
+        genders_list.place( x = 20 , y = 50, height = 25, width = 135)
+
+        #Entry box - Name
+        entry_box = Entry(text="")
+        entry_box.place( x = 180 , y = 50, width = 135, height = 25)
+        
+        #Button to add the name and the gender to the list
+        merge = Button(text="Add on list" , command = add_on_list)
+        merge.place( x = 335 , y = 50, height = 25, width = 135)
+
+        #output list
+        lista_onomatwn = Listbox()
+        lista_onomatwn.place( x = 20 , y = 95 , height = 100, width=315+135)
+
+        parathiro.attributes("-alpha",0.93,"-topmost",True)
+        parathiro.mainloop()
+
+    main_window()
+
 """
 dont change anything beyond this line
 """
@@ -1955,7 +1994,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "135"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "136"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
