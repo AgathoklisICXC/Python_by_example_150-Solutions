@@ -15,15 +15,16 @@ the pages mentioned below are for reference as per the files total pages, not as
 94 - 95 - Reading and Writing to a Text File
 99 - 102 - Reading and Writing to a .csv File
 107 - 109 - Subprograms
+142 - 147 - SQLite
 """
 
 import math
 import random
 from array import *
-#from decimal import Decimal, ROUND_UP, ROUND_HALF_UP #to address the float decimals round error
 from decimal import *
 import csv
 from tkinter import *
+import sqlite3
 
 def askhsh_1():
     name = input("Give me your first name please: ")
@@ -1939,7 +1940,7 @@ def askhsh_135():
 def askhsh_136():
     def main_window():
         def add_on_list():
-            name_to_be_added =  genders_select.get() + " " + entry_box.get()
+            name_to_be_added =  genders_select.get() + "," + entry_box.get()
             lista_onomatwn.insert(0,name_to_be_added)
 
         #main window setup
@@ -1975,6 +1976,155 @@ def askhsh_136():
 
     main_window()
 
+def askhsh_137():
+    def main_window():
+        def add_on_list():
+            name_to_be_added =  genders_select.get() + "," + entry_box.get()
+            lista_onomatwn.insert(0,name_to_be_added)
+            file = open ("exercise_137-nameslist.txt" , "a")
+            file.write(name_to_be_added+"\n")
+            file.close
+
+        #main window setup
+        parathiro = Tk()
+        parathiro.title("Exercise 137 - Names list with file write")
+        parathiro.geometry("490x450")
+
+        #intro
+        intro = Label (text="Please insert a name in the below text box and select the gender of that person.")
+        intro.place( x = 20 , y = 20)
+        intro.config(justify=LEFT)
+
+        #Genders list
+        genders_select = StringVar(parathiro)
+        genders_select.set("Select a gender")
+        genders_list = OptionMenu(parathiro,genders_select,"Mr","Mrs")
+        genders_list.place( x = 20 , y = 50, height = 25, width = 135)
+
+        #Entry box - Name
+        entry_box = Entry(text="")
+        entry_box.place( x = 180 , y = 50, width = 135, height = 25)
+        
+        #Button to add the name and the gender to the list
+        merge = Button(text="Add on list" , command = add_on_list)
+        merge.place( x = 335 , y = 50, height = 25, width = 135)
+
+        #output list
+        lista_onomatwn = Listbox()
+        lista_onomatwn.place( x = 20 , y = 95 , height = 100, width=315+135)
+
+        parathiro.attributes("-alpha",0.93,"-topmost",True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_138():
+    def main_window():
+        def pick_img_cmd():
+            match number_entry_box.get():
+                case "1":
+                    eikona_box["image"] = eikona_ena
+                case "2":
+                    eikona_box["image"] = eikona_dyo
+                case "3":
+                    eikona_box["image"] = eikona_tria
+
+
+        
+        #basic window setup
+        parathiro = Tk()
+        parathiro.title("Exercise 138 - Images scroll")
+        parathiro.geometry("330x400")
+
+        #intro
+        intro = Label(text="This program is practically an image viewer.")
+        intro.place( x = 15 , y = 15)
+
+        #guidelines
+        guidelines = Label(text="Insert a number (1 through 3)")
+        guidelines.place( x = 15 , y = 40)
+
+        #entry box
+        number_entry_box = Entry()
+        number_entry_box.place(x=15, y = 65, width = 120)
+
+        #Button - setup
+        pick_button = Button(text="View image", command=pick_img_cmd)
+        pick_button.place(x=150 , y = 65)
+
+        #image setup
+        eikona_box = Label(image="")#to place the image in the program
+        eikona_box.place(x = 15, y = 90, width = 300, height = 300 )
+        eikona_ena = PhotoImage(file = "exercise-138/exercise_138-ena.gif")#to open the image
+        eikona_dyo = PhotoImage(file = "exercise-138/exercise_138-dyo.gif")#to open the image
+        eikona_tria  = PhotoImage(file = "exercise-138/exercise_138-tria.gif")
+
+        parathiro.attributes("-alpha",0.93,"-topmost",True)
+        parathiro.mainloop()
+
+    main_window()
+
+def askhsh_139():
+    #database creation
+    with sqlite3.connect("Exercise_139.db") as db:
+        cursor=db.cursor()
+    
+    #table creation
+    cursor.execute("""CREATE TABLE IF NOT EXISTS PhoneBook(
+                   ID integer PRIMARY KEY,
+                   'First Name' text NOT NULL,
+                   Surname text NOT NULL,
+                   'Phone Number' integer NOT NULL)"""
+                   )
+    
+    #data insertion
+    cursor.execute("""INSERT INTO PhoneBook(ID,'First Name',Surname,'Phone Number')
+                   VALUES("1","Simon","Howels","01223349752")""")
+    cursor.execute("""INSERT INTO PhoneBook(ID,'First Name',Surname,'Phone Number')
+                   VALUES("2","Karen","Phillips","01954295773")""")    
+    cursor.execute("""INSERT INTO PhoneBook(ID,'First Name',Surname,'Phone Number')
+                   VALUES("3","Daren","Smith","01583749012")""")
+    cursor.execute("""INSERT INTO PhoneBook(ID,'First Name',Surname,'Phone Number')
+                   VALUES("4","Anne","Jones","01323567322")""")
+    cursor.execute("""INSERT INTO PhoneBook(ID,'First Name',Surname,'Phone Number')
+                   VALUES("5","Marke","Smith","01223855534")""")
+    db.commit()
+
+def askhsh_140():#Not finished
+    def display_menu():
+        #defining the correct menu choices
+        valid_menu_choices = [1,2,3,4,5]
+
+        print("Main menu")
+        print()
+        print("1) View phone book")
+        print("2) Add to phone book")
+        print("3) Search for surname")
+        print("4) Delete person from phone book")
+        print("5) Quit")
+        print()
+        menu_choice = int(input("Enter your selection: "))
+        print("----------------------------------")
+
+        while menu_choice not in valid_menu_choices:
+            print("Your choice is invalid. Please try again.")
+            print("----------------------------------")
+            display_menu()
+        
+        match menu_choice:
+            case 1:
+                print(1)
+            case 2:
+                print(2)
+            case 3:
+                print(3)
+            case 4:
+                print(4)
+            case 5:
+                print(5)
+
+    display_menu()
+
 """
 dont change anything beyond this line
 """
@@ -1994,7 +2144,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "136"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "140"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
