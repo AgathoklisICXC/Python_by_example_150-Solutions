@@ -2092,6 +2092,60 @@ def askhsh_139():
 
 def askhsh_140():#Not finished
     def display_menu():
+        
+        #db connection initiation
+        with sqlite3.connect("Exercise_139.db") as db:
+            cursor=db.cursor()
+        
+        #menu choice 1
+        def view_table():
+            print("View phone book selected, fetching results...")
+            cursor.execute("select * from phonebook")
+            for x in cursor.fetchall():
+                print(x)
+
+            print("----------------------------------")
+            #return to main menu
+            display_menu()
+
+        #menu choice 2
+        def add_to_table():
+            print("Add to phonebook selected.")
+            #Fetch data for new entry
+            first_name = input("Please insert a first name: ")
+            surname = input("Please insert a surname: ")
+            telephone = int(input("Please insert a phone: "))
+
+            #fetch id for new entry
+            cursor.execute("select id from phonebook order by id desc limit 1")
+            list_of_tuples_of_result = cursor.fetchall()
+            higher_id_in_db = list_of_tuples_of_result[-1][-1]
+            next_id = higher_id_in_db + 1
+            
+            cursor.execute("""Insert into phonebook(id,'first name',surname,'Phone Number')
+                           VALUES(?,?,?,?)""",(next_id,first_name,surname,telephone))
+            db.commit()
+
+            print("----------------------------------")
+            #return to main menu
+            display_menu()
+
+        
+        #menu choice 3
+        def search(column):
+            cursor.execute("select * from phonebook where surname=?",[column])
+            for x in cursor.fetchall():
+                print(x)
+            print("----------------------------------")
+            #return to main menu
+            display_menu()
+
+        #menu choice 4
+        def delete_entry(entry_given):
+            cursor.execute("DELETE FROM phonebook where ID=?",[entry_given])
+            db.commit()
+            display_menu()
+
         #defining the correct menu choices
         valid_menu_choices = [1,2,3,4,5]
 
@@ -2113,15 +2167,15 @@ def askhsh_140():#Not finished
         
         match menu_choice:
             case 1:
-                print(1)
+                view_table()
             case 2:
-                print(2)
+                add_to_table()
             case 3:
-                print(3)
+                search(input("Search for a surname: "))
             case 4:
-                print(4)
+                delete_entry(int(input("Select the id of the entry you would like to delete: ")))
             case 5:
-                print(5)
+                exit()
 
     display_menu()
 
