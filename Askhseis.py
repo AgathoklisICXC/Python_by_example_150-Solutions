@@ -2179,6 +2179,119 @@ def askhsh_140():#Not finished
 
     display_menu()
 
+def askhsh_141():
+    #database creation
+    with sqlite3.connect("BookInfo.db") as db:
+        cursor=db.cursor()
+
+    #creation of authors table
+    cursor.execute("""CREATE TABLE IF NOT EXISTS AUTHORS(
+    Name text PRIMARY KEY,
+    "Place of Birth" text NOT NULL);"""
+    )
+    db.commit()
+    
+
+    #creation of Books table
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Books(
+    ID INTEGER PRIMARY KEY,
+    Title text not null,
+    Author text not null,
+    "Year Published" integer not null);"""
+    )
+    db.commit()
+
+    #Data creation for Authors table
+    cursor.execute("""INSERT INTO AUTHORS(NAME,"Place of Birth") VALUES ("Agatha Christie","Torquay")""")
+    cursor.execute("""INSERT INTO AUTHORS(NAME,"Place of Birth") VALUES ("Cecelia Ahern","Dublin")""")
+    cursor.execute("""INSERT INTO AUTHORS(NAME,"Place of Birth") VALUES ("J.K.Rowling","Bristol")""")
+    cursor.execute("""INSERT INTO AUTHORS(NAME,"Place of Birth") VALUES ("Oscar Wilde","Dublin")""")
+    db.commit()
+
+    #Data creation for Books table
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(1,"De Profundis","Oscar Wilde",1905)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(2,"Harry Potter and the chamber of secrets","J.K.Rowling",1998)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(3,"Harry Potter and the prisoner of azkaban","J.K.Rowling",1999)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(4,"Lyrebird","Cecelia Ahern",2017)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(5,"Murder on the Orient Express","Agatha Christie",1934)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(6,"Perfect","Cecelia Ahern",2017)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(7,"The marble collector","Cecelia Ahern",2016)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(8,"The murder on the links","Agatha Christie",1923)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(9,"The picture of dorian gray","Oscar Wilde",1890)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(10,"The secret adversary","Agatha Christie",1921)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(11,"The seven dials mystery","Agatha Christie",1929)""")
+    cursor.execute("""INSERT INTO Books(ID, Title, Author, "Year published") Values(12,"The year I met you","Cecelia Ahern",2014)""")
+    db.commit()
+
+def askhsh_142():
+    #utility function section
+    def clean_single_sql_output(word):
+        return str(word).replace("'","").replace("(","").replace(")","").replace("[","").replace("]","").replace(",","").replace("\"","")
+
+    #main functions section
+    def load_sql_db(database_selection):
+        #cursor = None
+        with sqlite3.connect(database_selection) as db:
+            cursor=db.cursor()
+        return cursor
+
+    def authors_display():
+        #display the authors to the user
+        print("--------------------------------------")
+        print("This database contains the following authors:")
+        print("Name, Birthplace")
+        cursor.execute("""Select * from Authors""")
+        for x in cursor.fetchall():
+            print(x)
+        print("--------------------------------------")
+
+    def create_list_of_authors():
+        places_list=[]
+        cursor.execute("""Select \"Place of Birth\" from authors""")
+        for x in cursor.fetchall():
+            n = clean_single_sql_output(x)
+            places_list.append(n)
+        return places_list
+    
+    def fetch_artists(users_input):
+        artists_list = []
+        cursor.execute("Select Name from authors where \"Place of Birth\"=?",[users_input])
+        for x in cursor.fetchall():
+            artists_list.append(clean_single_sql_output(x))
+        return artists_list
+
+    def fetch_work_of_artist(artist):
+        work_list = []
+        cursor.execute("Select Title, Author, \"Year published\" from Books where Author=?",[artist])
+        for x in cursor.fetchall():
+            print(x)
+
+    
+    #------------------------------------------------------------------------------
+    #main program
+    #1.load database
+    cursor = load_sql_db("BookInfo.db")
+
+    #2.display list of authors and get insert the list of authors in a set
+    #authors_display()
+    list_of_authors_cities = create_list_of_authors()
+
+    #3.Accept a city input
+    city_chosen = ()
+    while city_chosen not in list_of_authors_cities:
+        authors_display()
+        city_chosen = input("Please give a city from the the list : ")
+    
+    #4.display all the works of the authors that have been borned from the city given.
+    artists_from_city = fetch_artists(city_chosen)
+    for artist in artists_from_city:
+        fetch_work_of_artist(artist)
+        if len(artists_from_city) !=1 and artist!=artists_from_city[-1]:
+             print("and also")
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------
+
 """
 dont change anything beyond this line
 """
@@ -2198,7 +2311,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "140"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    dialogh_askhseis = "142"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
