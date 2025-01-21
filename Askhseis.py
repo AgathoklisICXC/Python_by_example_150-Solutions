@@ -2396,7 +2396,6 @@ def askhsh_144():
             file.write(sentece+"\n")
         file.close()
 
-
     #main program
     #1.load database
     cursor = load_sql_db("BookInfo.db")
@@ -2419,11 +2418,6 @@ def askhsh_144():
     #4.insert the data in a txt file
     save_data(sentences)
     
-
-
-
-
-
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
 """
@@ -2445,7 +2439,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    dialogh_askhseis = "144"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "144"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
