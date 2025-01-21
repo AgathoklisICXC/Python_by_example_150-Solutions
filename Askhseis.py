@@ -2289,6 +2289,140 @@ def askhsh_142():
         if len(artists_from_city) !=1 and artist!=artists_from_city[-1]:
              print("and also")
 
+def askhsh_143():
+    #main function settings
+    def load_sql_db(database_selection):
+        #cursor = None
+        with sqlite3.connect(database_selection) as db:
+            cursor=db.cursor()
+        return cursor
+
+    def fetch_all_books():
+        cursor.execute("Select * from Books")
+        for x in cursor.fetchall():
+            print(x)
+
+    def fetch_books(users_input):
+        cursor.execute("Select * from Books where \"Year published\">?",[users_input])
+        for x in cursor.fetchall():
+            print(x)
+
+
+    
+    #main program
+    #1.load database
+    cursor = load_sql_db("BookInfo.db")
+
+    #2.Fetch all the books
+    fetch_all_books()
+    print("-----------------------")
+
+
+    #3.ask the user for a year
+    users_input = int(input("Please give a year: "))
+    print("-----------------------")
+
+    #4.fetch the books after that year
+    print("The books that were published after that year are the following: ")
+    fetch_books(users_input)
+    print("-----------------------")
+
+def askhsh_144():
+    #steps
+    '''
+    1.open the database
+    1.5 - show authors
+    2.ask the user for an author
+    3.fetch the data and save them properly
+    4.insert the data in a txt file
+    '''
+
+    #utility functions
+    def clean_single_sql_output(word):
+        return str(word).replace("'","").replace("(","").replace(")","").replace("[","").replace("]","").replace(",","").replace("\"","")
+
+
+    #main functions
+    def load_sql_db(database_selection):
+        #cursor = None
+        with sqlite3.connect(database_selection) as db:
+            cursor=db.cursor()
+        return cursor
+
+    def create_list_of_authors():
+        places_list=[]
+        cursor.execute("""Select Name from authors""")
+        for x in cursor.fetchall():
+            n = clean_single_sql_output(x)
+            places_list.append(n)
+        return places_list
+
+    def authors_display():
+        #display the authors to the user
+        print("--------------------------------------")
+        print("This database contains the following authors:")
+        print("Name, Birthplace")
+        cursor.execute("""Select * from Authors""")
+        for x in cursor.fetchall():
+            print(x)
+        print("--------------------------------------")
+    
+    def fetch_work_of_artist(artist):
+        all_works = []
+        number_of_books = 0
+        work_list_id = []
+        work_list_title = []
+        work_list_year = []
+        cursor.execute("Select ID,Title, \"Year published\" from Books where Author=?",[artist])
+        for x in cursor.fetchall():
+            all_works.append(x)
+            work_list_id.append(x[0])
+            work_list_title.append(x[1])
+            work_list_year.append(x[2])
+        #return work_list_title,work_list_year
+        number_of_books = len(all_works)
+        return number_of_books, work_list_id, work_list_title, work_list_year
+    
+    def sentence_formation(number_of_books,work_ids, work_titles, work_years):
+        sentences_list = []
+        for work in range(0,number_of_books):
+            sentence = f"{work_ids[work]} - {work_titles[work]} - {work_years[work]}"
+            sentences_list.append(sentence)
+        return sentences_list
+
+    def save_data(sentences):
+        file = open ("Exercise_144.txt","w")
+        for sentece in sentences:
+            file.write(sentece+"\n")
+        file.close()
+
+
+    #main program
+    #1.load database
+    cursor = load_sql_db("BookInfo.db")
+
+    #2.show the authors + accept an author
+    list_of_authors = create_list_of_authors()
+    
+    author_chosen = ()
+    while author_chosen not in list_of_authors:
+        authors_display()
+        author_chosen = input("Please give an author from the list above: ")
+    
+    #3.fetch the data and save them properly
+    #data fetch
+    number_of_books, work_ids, work_titles, work_years = fetch_work_of_artist(author_chosen)
+
+    #format then properly
+    sentences = sentence_formation(number_of_books,work_ids, work_titles, work_years)
+
+    #4.insert the data in a txt file
+    save_data(sentences)
+    
+
+
+
+
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2311,7 +2445,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    dialogh_askhseis = "142"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    dialogh_askhseis = "144"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
