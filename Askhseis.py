@@ -2417,6 +2417,91 @@ def askhsh_144():
 
     #4.insert the data in a txt file
     save_data(sentences)
+
+def askhsh_145():
+    #steps
+    '''
+    1.draw gui + 2 labels + 2 entry boxes + 2 buttons
+    2.Add button function
+        2.1 open db
+        2.2 fetch data from entry boxes
+        2.3 insert the data in the db
+        2.4 close the db
+    3.Clear button function
+    '''
+    #utility functions
+    #main functions
+
+    ########BEGIN OF GUI########
+    def main_program():
+        global name_entry_box
+        global grade_entry_box
+        parathiro = Tk()
+        parathiro.title("Test Scores")
+        parathiro.geometry("400x300")
+
+        #student's name label
+        name = Label(text="Enter student's name: ", justify='left')
+        name.place(x = 40 , y = 20 , height = 20)
+
+        #students name entry box
+        name_entry_box = Entry(text=0)
+        name_entry_box.place(x=160, y = 20, height = 20, width = 180)
+
+        #students grade label
+        name = Label(text="Enter student's grade: ", justify='left')
+        name.place(x = 40 , y = 60 , height = 20)
+
+        #students grade entry box
+        grade_entry_box = Entry(text=1)
+        grade_entry_box.place(x=160, y = 60, height = 20, width = 180)
+
+        #add button
+        add_koumpi = Button(text="Add", command=add_entry)
+        add_koumpi.place(x = 40, y = 100, width=150, height = 25)
+
+        #clear button
+        clear_koumpi = Button(text="Clear", command=clear_entry_boxes)
+        clear_koumpi.place(x = 200, y = 100, width=140, height = 25)
+        
+        parathiro.attributes("-alpha",0.93,"-topmost",True)
+        parathiro.mainloop()
+    ########END OF GUI########
+
+    def load_sql_db(database_selection):
+        #cursor = None
+        global db
+        with sqlite3.connect(database_selection) as db:
+            cursor=db.cursor()
+        cursor.execute("""
+CREATE TABLE IF NOT EXISTS Grades_n_names(
+                       Name text primary key,
+                       grade integer not null);
+                       """)
+        db.commit()
+        return cursor
+    
+    def add_entry():
+        global db
+        global name_entry_box
+        global grade_entry_box
+        name = name_entry_box.get()
+        grade = grade_entry_box.get()
+        cursor.execute("""Insert into Grades_n_names(Name, grade)
+                       Values(?,?)""",(name,grade))
+        db.commit()
+
+    def clear_entry_boxes():
+        name_entry_box.delete(0,END)
+        grade_entry_box.delete(0,END)
+
+    #main program
+    #open the db
+    cursor = load_sql_db("TestScores.db")
+
+
+    
+    main_program()
     
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2439,7 +2524,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "144"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "145"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
