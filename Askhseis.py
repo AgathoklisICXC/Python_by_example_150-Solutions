@@ -2499,10 +2499,80 @@ CREATE TABLE IF NOT EXISTS Grades_n_names(
     #open the db
     cursor = load_sql_db("TestScores.db")
 
+    main_program()
+
+def askhsh_146():
+    #steps
+    #utility functions
+    
+    #main program functions
+    def dencoder(mode):
+        characters_list = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"," "]
+        rotation_number = 0
+        #encoded_message = []
+        #decoded_message = []
+        decoded_message_as_string = ""
+        encoded_message_as_string = ""
+
+        rotation_number = int(input(f"Please insert a valid integer number to {mode}: "))
+
+        match mode:
+            case "decode":
+                encoded_message = input("Give a message to decode: ").lower()
+                move_chars_by = -(rotation_number % len(characters_list))
+                
+                #message characters parse
+                for i in encoded_message:
+                    decoded_message_as_string += characters_list[characters_list.index(i)+move_chars_by]
+                print(decoded_message_as_string)
+
+
+            case "encode":
+                decoded_message = input("Give a message to encode: ").lower()
+                move_chars_by = +(rotation_number % len(characters_list))#sto encode tuto enna ginei +
+                #print("move_chars_by",move_chars_by)
+                
+                #message characters parse
+                for i in decoded_message:
+                    move_chars_by = +(rotation_number % len(characters_list))#sto encode tuto enna ginei +
+                    if characters_list.index(i)+move_chars_by >= len(characters_list):
+                        move_chars_by = move_chars_by-abs(len(characters_list)-characters_list.index(i))
+                        encoded_message_as_string += characters_list[move_chars_by]
+                    else:
+                        encoded_message_as_string += characters_list[characters_list.index(i)+move_chars_by]
+                print(encoded_message_as_string)
+
+                
+
 
     
-    main_program()
-    
+    def display_main_menu(run=0):
+        valid_menu_selections = [1,2,3]
+        user_menu_selection = 0
+        if run == "1st run":
+            print("Welcome to Shift code program")
+        print("-----------------------------")
+        print("1) Encode a message")
+        print("2) Decode a message")
+        print("3) Quit")
+        print()
+        while user_menu_selection not in valid_menu_selections:
+            user_menu_selection = int(input("Enter your selection: "))
+
+        match user_menu_selection:
+            case 1:
+                print("1")
+                dencoder("encode")
+            case 2:
+                dencoder("decode")
+            case 3:
+                exit()
+        
+    #main program
+
+
+    display_main_menu("1st run")
+
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
 """
@@ -2524,7 +2594,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "145"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "146"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
