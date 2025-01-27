@@ -2578,15 +2578,23 @@ def askhsh_146():
 def askhsh_147():
     #steps
     #utility functions
-    '''
-    solved = 0 #Timer's variable
-    def timer_function(solved):
-        start_time = time.perf_counter()
-        while solved == False:
-            end_time=time.perf_counter()
-            print(end_time-start_time)
+    def time_keeper():
+        global is_game_finished
+        global time_seconds
+        while is_game_finished == 0:
+            time_seconds += 1
             time.sleep(1)
-    '''
+            timer.config(text="TIMER : "+str(time_minutes)+":"+str(time_seconds))
+            print(time_seconds)
+
+
+    def start_game_n_timer():
+        thread_one = threading.Thread(target=start_game_cmd())
+        thread_two = threading.Thread(target=time_keeper())
+
+        thread_one.start()
+        thread_two.start()
+
 
     #main program functions
     def start_game_cmd():
@@ -2595,7 +2603,7 @@ def askhsh_147():
         if generated_sequence["color_1"] == "Null":
             for i in range(1,5):
                 generated_sequence["color_{0}".format(i)] = random.choice(available_colours)
-        print("generated",generated_sequence)#temporary variable used for testing
+        #print("generated",generated_sequence)#temporary variable used for testing
         #timer_function(0)
         
     def check_command():
@@ -2605,16 +2613,12 @@ def askhsh_147():
         colors_to_check = []
         global tries_count
 
-        if is_game_finished == 1:
-            print("the game is finishhed")
-            return
-
         #first part of the command is to fetch the selected values from the drop downlists
         for i in range(1,5):
             users_sequence["color_{0}".format(i)] = eval("color_chooser_"+str(i)).get()
         
         #temporary sequence printer
-        print(users_sequence)
+        #print(users_sequence)
 
         #tries counter
         tries_count += 1
@@ -2629,24 +2633,11 @@ def askhsh_147():
                 correct_counter += 1
                 colors_to_check.remove(i)
         checks_place_correct.configure(text=text_checks_place_correct+str(correct_counter))
-        print(colors_to_check)
+        #print(colors_to_check)
         if correct_counter == 4:
             won_function()
             return
 
-        '''
-        for i in generated_sequence:
-            if i in colors_to_check:#From this point onwards, only the colors that are wrong will be processed
-                for x in colors_to_check:# ie ['color_2', 'color_3']
-                    print()
-        '''
-        '''
-        for i in generated_sequence:
-            for x in users_sequence:
-                if (generated_sequence[i] == users_sequence[x]) and (i != x) and (generated_sequence[i] in colors_to_check):
-                    wrong_place_counter += 1
-        checks_wrong_place.configure(text=text_checks_wrong_place+str(wrong_place_counter))
-        '''
         for i in generated_sequence:
             if i in colors_to_check:
                 for x in users_sequence:
@@ -2676,6 +2667,7 @@ def askhsh_147():
     global color_chooser_4
     global tries_count
     global is_game_finished
+    global time_seconds
     is_game_finished = 0
     parathiro = Tk()
     parathiro.title("Exercise 147: Mastermind")
@@ -2702,9 +2694,13 @@ def askhsh_147():
     start_game = Button(text="Start game", command = start_game_cmd)
     start_game.place(x = 15, y = 180, width=100)
 
-    #timer
-    timer = Label(text="TIMER : "+"00:00")
+
+    '''#timer
+    time_seconds = 0
+    time_minutes = 0
+    timer = Label(text="TIMER : "+str(time_minutes)+":"+str(time_seconds))
     timer.place(x= 150, y = 180)
+    '''
 
     #generation/no generation label
     generation_check_messages = ["No sequence generated yet.", "Sequence generated. Try to guess it."]
@@ -2756,21 +2752,10 @@ def askhsh_147():
 
     #Tries counter
     tries_count=0
-    #text_tries_counter = "Tries so far: "+str(tries_count)
-    #tries_counter = Label(text=text_tries_counter)
     tries_counter = Label(text="Tries so far: "+str(tries_count))
     tries_counter.place(x = 250, y = 320)
 
     #game reset button - resets time+ nullifies generated sequence
-
-    '''
-    while True:
-        start_time = str(time.monotonic())
-        time_passed = time.monotonic() - start_time
-        print(type(time.monotonic()))
-        print(time_passed)
-        time.sleep(1)
-    '''
     
     parathiro.mainloop()
 
@@ -2797,7 +2782,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    dialogh_askhseis = "147"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "147"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
