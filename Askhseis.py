@@ -25,6 +25,8 @@ from decimal import *
 import csv
 from tkinter import *
 import sqlite3
+import time#exercise 147
+import threading#exercise 147
 
 def askhsh_1():
     name = input("Give me your first name please: ")
@@ -2573,6 +2575,207 @@ def askhsh_146():
 
     display_main_menu("1st run")
 
+def askhsh_147():
+    #steps
+    #utility functions
+    '''
+    solved = 0 #Timer's variable
+    def timer_function(solved):
+        start_time = time.perf_counter()
+        while solved == False:
+            end_time=time.perf_counter()
+            print(end_time-start_time)
+            time.sleep(1)
+    '''
+
+    #main program functions
+    def start_game_cmd():
+        available_colours = ["Red","White","Blue","Green","Yellow"]
+        gen_check.configure(text=generation_check_messages[1])
+        if generated_sequence["color_1"] == "Null":
+            for i in range(1,5):
+                generated_sequence["color_{0}".format(i)] = random.choice(available_colours)
+        print("generated",generated_sequence)#temporary variable used for testing
+        #timer_function(0)
+        
+    def check_command():
+        global correct_counter
+        correct_counter = 0
+        wrong_place_counter = 0
+        colors_to_check = []
+        global tries_count
+
+        if is_game_finished == 1:
+            print("the game is finishhed")
+            return
+
+        #first part of the command is to fetch the selected values from the drop downlists
+        for i in range(1,5):
+            users_sequence["color_{0}".format(i)] = eval("color_chooser_"+str(i)).get()
+        
+        #temporary sequence printer
+        print(users_sequence)
+
+        #tries counter
+        tries_count += 1
+        tries_counter.configure(text="Tries so far: "+str(tries_count))
+
+        #second part of the command is to make the check
+        for i in generated_sequence:
+            colors_to_check.append(i)#This contains all the values of the keys -> ['color_1', 'color_2', 'color_3', 'color_4']
+        
+        for i in generated_sequence:
+            if generated_sequence[i] == users_sequence[i]:#this will remove all the colors that are correct in the correct place
+                correct_counter += 1
+                colors_to_check.remove(i)
+        checks_place_correct.configure(text=text_checks_place_correct+str(correct_counter))
+        print(colors_to_check)
+        if correct_counter == 4:
+            won_function()
+            return
+
+        '''
+        for i in generated_sequence:
+            if i in colors_to_check:#From this point onwards, only the colors that are wrong will be processed
+                for x in colors_to_check:# ie ['color_2', 'color_3']
+                    print()
+        '''
+        '''
+        for i in generated_sequence:
+            for x in users_sequence:
+                if (generated_sequence[i] == users_sequence[x]) and (i != x) and (generated_sequence[i] in colors_to_check):
+                    wrong_place_counter += 1
+        checks_wrong_place.configure(text=text_checks_wrong_place+str(wrong_place_counter))
+        '''
+        for i in generated_sequence:
+            if i in colors_to_check:
+                for x in users_sequence:
+                    if generated_sequence[i] == users_sequence[x]:
+                        if i in colors_to_check:
+                            colors_to_check.remove(i)
+                            wrong_place_counter += 1
+        checks_wrong_place.configure(text=text_checks_wrong_place+str(wrong_place_counter))
+
+    def won_function():
+        global correct_counter
+        global is_game_finished
+        is_game_finished = 1
+        checks_place_correct.configure(text=text_checks_place_correct+str(correct_counter)+" Congratulations, you have guessed the generated sequence.")
+        check_button.config(state=DISABLED)
+        colors_list_1.config(state=DISABLED)
+        colors_list_2.config(state=DISABLED)
+        colors_list_3.config(state=DISABLED)
+        colors_list_4.config(state=DISABLED)
+        
+
+
+    #main program
+    global color_chooser_1
+    global color_chooser_2
+    global color_chooser_3
+    global color_chooser_4
+    global tries_count
+    global is_game_finished
+    is_game_finished = 0
+    parathiro = Tk()
+    parathiro.title("Exercise 147: Mastermind")
+    parathiro.geometry("600x450")
+    parathiro.attributes("-alpha",0.93,"-topmost",True)
+
+    #Intro
+    intro = Label(text = "This is the game of mastermind.",justify="left")
+    intro.place( x = 15 , y = 15)
+
+    #Guidelines
+    guidelines = Label(justify="left",text = """
+    In this game, the computer will generate a random sequence of four colours.
+    This sequence will be hidden to the player, and the player will have to guess it.
+    Click on \"Start game\" to generate the sequence.
+    Select the colours of your choice, and click on \"Check\",
+    to compare the sequence that you guessed againt the one the computer has generated.
+    Based on your choices, the game will generate hints as to how many guesses you got right,
+    and how many you got right but in the wrong place.
+    Good Luck!""")
+    guidelines.place(x = 15, y = 35)
+
+    #Start game Button - This will generate the secret sequence and start the game timer
+    start_game = Button(text="Start game", command = start_game_cmd)
+    start_game.place(x = 15, y = 180, width=100)
+
+    #timer
+    timer = Label(text="TIMER : "+"00:00")
+    timer.place(x= 150, y = 180)
+
+    #generation/no generation label
+    generation_check_messages = ["No sequence generated yet.", "Sequence generated. Try to guess it."]
+    gen_check = Label(text=generation_check_messages[0])
+    gen_check.place(x = 15 , y = 210)
+
+    #Colors dictionary initialization-This variable exists in order to allow the start button to generate only one sequence per program run.
+    generated_sequence = {"color_1": "Null"}
+    users_sequence = {"color_1": "Null"}
+    #Choosers setup begin#############################################################################################################
+    color_chooser_1 = StringVar(parathiro)
+    color_chooser_1.set("Select a color")
+    colors_list_1 = OptionMenu(parathiro,color_chooser_1,"Red","White","Blue","Green","Yellow")
+    colors_list_1.place(x = 15, y = 240, width = 125, height = 30)
+
+    color_chooser_2 = StringVar(parathiro)
+    color_chooser_2.set("Select a color")
+    colors_list_2 = OptionMenu(parathiro,color_chooser_2,"Red","White","Blue","Green","Yellow")
+    colors_list_2.place(x = 150, y = 240, width = 125, height = 30)
+
+    color_chooser_3 = StringVar(parathiro)
+    color_chooser_3.set("Select a color")
+    colors_list_3 = OptionMenu(parathiro,color_chooser_3,"Red","White","Blue","Green","Yellow")
+    colors_list_3.place(x = 285, y = 240, width = 125, height = 30)
+
+    color_chooser_4 = StringVar(parathiro)
+    color_chooser_4.set("Select a color")
+    colors_list_4 = OptionMenu(parathiro,color_chooser_4,"Red","White","Blue","Green","Yellow")
+    colors_list_4.place(x = 420, y = 240, width = 125, height = 30)
+    #Choosers setup end#############################################################################################################
+    
+    #check button
+    check_button = Button(text="Check the sequence!", command=check_command)
+    check_button.place(x = 180, y = 280, width=200 , height = 30)
+
+    #checks label
+    checks = Label(text="Checks:")
+    checks.place(x = 15, y =  320)
+
+    #checks label
+    text_checks_wrong_place = "Correct colour in the wrong place: "
+    checks_wrong_place = Label(text = text_checks_wrong_place)
+    checks_wrong_place.place(x = 15, y =  340)
+
+    #checks label
+    text_checks_place_correct = "Correct colour in the correct place: "
+    checks_place_correct = Label(text = text_checks_place_correct)
+    checks_place_correct.place(x = 15, y =  360)
+
+    #Tries counter
+    tries_count=0
+    #text_tries_counter = "Tries so far: "+str(tries_count)
+    #tries_counter = Label(text=text_tries_counter)
+    tries_counter = Label(text="Tries so far: "+str(tries_count))
+    tries_counter.place(x = 250, y = 320)
+
+    #game reset button - resets time+ nullifies generated sequence
+
+    '''
+    while True:
+        start_time = str(time.monotonic())
+        time_passed = time.monotonic() - start_time
+        print(type(time.monotonic()))
+        print(time_passed)
+        time.sleep(1)
+    '''
+    
+    parathiro.mainloop()
+
+
+
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
 """
@@ -2594,7 +2797,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "146"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    dialogh_askhseis = "147"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
