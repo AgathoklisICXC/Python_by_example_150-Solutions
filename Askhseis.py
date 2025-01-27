@@ -2635,6 +2635,8 @@ def askhsh_147():
         checks_place_correct.configure(text=text_checks_place_correct+str(correct_counter))
         #print(colors_to_check)
         if correct_counter == 4:
+            wrong_place_counter = 0
+            checks_wrong_place.configure(text=text_checks_wrong_place+str(wrong_place_counter))
             won_function()
             return
 
@@ -2657,6 +2659,23 @@ def askhsh_147():
         colors_list_2.config(state=DISABLED)
         colors_list_3.config(state=DISABLED)
         colors_list_4.config(state=DISABLED)
+    
+    def reset_cmd():
+        global tries_count
+        check_button.config(state=ACTIVE)
+        colors_list_1.config(state=ACTIVE)
+        colors_list_2.config(state=ACTIVE)
+        colors_list_3.config(state=ACTIVE)
+        colors_list_4.config(state=ACTIVE)
+        color_chooser_1.set("Select a color")
+        color_chooser_2.set("Select a color")
+        color_chooser_3.set("Select a color")
+        color_chooser_4.set("Select a color")
+        gen_check.config(text=generation_check_messages[0])
+        checks_wrong_place.config(text=text_checks_wrong_place)
+        checks_place_correct.config(text=text_checks_place_correct)
+        tries_count = 0
+        tries_counter.configure(text="Tries so far: "+str(tries_count))
         
 
 
@@ -2667,7 +2686,7 @@ def askhsh_147():
     global color_chooser_4
     global tries_count
     global is_game_finished
-    global time_seconds
+    #global time_seconds
     is_game_finished = 0
     parathiro = Tk()
     parathiro.title("Exercise 147: Mastermind")
@@ -2694,12 +2713,12 @@ def askhsh_147():
     start_game = Button(text="Start game", command = start_game_cmd)
     start_game.place(x = 15, y = 180, width=100)
 
-
-    '''#timer
+    '''
+    #timer
     time_seconds = 0
     time_minutes = 0
     timer = Label(text="TIMER : "+str(time_minutes)+":"+str(time_seconds))
-    timer.place(x= 150, y = 180)
+    timer.place(x= 250, y = 180)
     '''
 
     #generation/no generation label
@@ -2756,6 +2775,8 @@ def askhsh_147():
     tries_counter.place(x = 250, y = 320)
 
     #game reset button - resets time+ nullifies generated sequence
+    reset_button = Button(text="Reset",command=reset_cmd)
+    reset_button.place(x = 135, y = 180, width=100)
     
     parathiro.mainloop()
 
