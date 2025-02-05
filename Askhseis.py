@@ -2964,7 +2964,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    dialogh_askhseis = "148"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "148"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
