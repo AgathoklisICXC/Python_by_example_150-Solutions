@@ -2780,6 +2780,167 @@ def askhsh_147():
     
     parathiro.mainloop()
 
+def askhsh_148():
+    #utility functions
+    #def open_csv():
+        #file = open ("Exercise_148.csv","r+t")
+        #return file
+    
+    def set_password():
+        new_pass = input("Please give a password: ")
+        return check_password(new_pass)
+
+    def check_password(password_given):
+        #special characters
+        special_chars = ["!","£","$","%","&","<","*","@"]
+        strength = 0
+
+        upper_check = 0
+        lower_check = 0
+        numeric_check = 0
+        special_chars_check = 0
+
+        if len(password_given) > 7:
+                strength += 1
+        for i in password_given:
+                if i.isupper() and upper_check == 0:
+                    strength += 1
+                    upper_check = 1
+                if i.islower() and lower_check == 0:
+                    strength += 1
+                    lower_check = 1
+                if i.isnumeric() and numeric_check == 0:
+                    strength += 1
+                    numeric_check = 1
+                if i in special_chars and special_chars_check == 0:
+                    strength += 1
+                    special_chars_check = 1
+        print("strength",strength)
+
+        if strength in [1,2]:
+            print("The password is weak. Please insert a better one.")
+            password_given = set_password()
+            
+        match strength:
+            case 3 | 4:
+                print("The password could be improved.")
+                try_again = input("Would you like to insert another password? Y or N: ")
+                if try_again == "Y" or try_again == "y":
+                    set_password()
+                #elif try_again == "N" or try_again == "n":
+                    #return password_given
+            case 5:
+                print("The password you have entered is strong enough.")
+                #return password_given
+        return password_given
+        
+
+    #main functions
+    def create_new_user():
+        checked_password = ""
+        new_user = ""
+        while new_user == "":
+            new_user = input("Please insert a username: ")
+        
+        #checking  whether the username already exists in the csv file
+        while does_user_exist_in_db(new_user):
+            print("This username is already been used. Please use a different one.")
+            new_user = input("Please insert a username: ")
+
+        checked_password = set_password()
+        return new_user, checked_password
+    
+    def does_user_exist_in_db(username):
+        users_list=[]
+        file = open ("Exercise_148.csv","r")#
+        for row in file:
+            users_list.append(row.split(",")[0])
+        if username in users_list:
+            return True
+        else:
+            return False
+        
+    def write_to_csv(username, password):
+        file = open ("Exercise_148.csv","a")
+        new_record = str(username)+","+str(password)+"\n"
+        file.write(new_record)
+        file.close
+    
+    def display_users():
+        users_list=[]
+        file = open ("Exercise_148.csv","r")
+       
+        for row in file:
+            users_list.append(row.split(",")[0])
+        print("The user's list is the following:")
+        for user in users_list:
+            print(user)
+        return users_list
+    
+    def change_pass(users_list):
+        user_to_change_pass = input("Please select a user from the list above to change the user's password: ")
+        while user_to_change_pass not in users_list:
+            print("The user you have selected is not in the list mentioned. Please select again.")
+            user_to_change_pass = input("Please select a user from the list above to change the user's password: ")
+        
+        new_password = set_password()
+
+        return user_to_change_pass,new_password
+
+    def replace_to_csv(username, new_password):
+        users_list=[]
+        passwords_list=[]
+        file = open ("Exercise_148.csv","r")
+        for row in file:
+            users_list.append(row.split(",")[0])
+            passwords_list.append(row.split(",")[1].replace("\n",""))
+        
+        file.close()
+
+        file = open ("Exercise_148.csv","w")
+        for user in users_list:
+            if user == username:
+                new_record = str(user)+","+str(new_password)+"\n"
+            else:
+                new_record = str(user)+","+str(passwords_list[users_list.index(user)])+"\n"
+            file.write(new_record)
+        file.close()
+        
+
+
+    def display_main_menu():
+        menu_valid_choices = [ 1 , 2 , 3 , 4]
+        menu_selection = 0
+        print("1) Create a new User ID")
+        print("2) Change a password")
+        print("3) Display all User IDs")
+        print("4) Quit")
+        print()
+        while menu_selection not in menu_valid_choices:
+            menu_selection = int(input("Enter Selection: "))
+        
+        match menu_selection:
+            case 1:
+                username, password = create_new_user()
+                write_to_csv(username, password)
+                print("-------------------------")
+                display_main_menu()
+            case 2:
+                users_list = display_users()
+                username, new_password = change_pass(users_list)
+                replace_to_csv(username, new_password)
+                print("-------------------------")
+                display_main_menu()
+            case 3:
+                display_users()
+                print("-------------------------")
+                display_main_menu()
+            case 4:
+                exit()
+    
+    #main program
+    display_main_menu()
+
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -2803,7 +2964,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "147"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    dialogh_askhseis = "148"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
