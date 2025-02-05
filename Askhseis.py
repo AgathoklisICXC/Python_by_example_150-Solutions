@@ -2941,6 +2941,50 @@ def askhsh_148():
     #main program
     display_main_menu()
 
+def askhsh_149():
+    def times_table():
+        number = int(number_entry_box.get())
+        if str(text_box.get(1.0,END)).isspace():#checking if textbox is empty
+            for i in range(1,13):
+                equation = str(i)+" x "+str(number)+" = "+str(i*number)
+                text_box.insert(END, str(equation)+"\n")
+    
+    def clear_cmd():
+        text_box.delete(1.0,END)
+
+    def main_window():
+        global number_entry_box
+        global text_box
+    #basic window setup
+        parathiro = Tk()
+        parathiro.title("Exercise 149")
+        parathiro.geometry("500x450")
+        parathiro.attributes("-alpha",0.93,"-topmost",True)
+        
+        #intro
+        intro = Label(text="Enter a number: ")
+        intro.place( x = 15 , y = 15)
+
+        #entry box
+        number_entry_box = Entry()
+        number_entry_box.place(x=115, y = 15, width = 200)
+
+        #Button - view times table
+        pick_button = Button(text="View Times Table", command=times_table)
+        pick_button.place(x=340 , y = 15, width=100)
+
+        #Button - clear setup
+        pick_button = Button(text="Clear", command=clear_cmd)
+        pick_button.place(x=340 , y = 50, width=100)
+
+        #text box
+        text_box = Text()
+        text_box.place( x = 115, y = 50, height = 300, width= 200)
+
+        parathiro.mainloop()
+
+    main_window()
+
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -2964,7 +3008,7 @@ def askhsh_tk():
 
 def main():
     dialogh_askhseis = input("Choose an exercise: ")
-    #dialogh_askhseis = "148"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
+    #dialogh_askhseis = "149"#to select a specific exercise everytime without any user input. simply by clicking enter when asked to choose an exercise
     askhsh = "askhsh_"+dialogh_askhseis
     exec(askhsh+'()')
 
